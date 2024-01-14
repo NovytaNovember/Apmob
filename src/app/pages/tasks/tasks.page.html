@@ -1,0 +1,60 @@
+<!-- src/app/pages/tasks/tasks.page.html -->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">List Tugas Kuliah</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Input Tambah Tugas -->
+  <ion-item>
+    <ion-label position="stacked">Nama Mata Kuliah</ion-label>
+    <ion-input [(ngModel)]="matkul" placeholder="Masukkan nama mata kuliah"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="stacked">Deskripsi</ion-label>
+    <ion-input [(ngModel)]="deskripsi" placeholder="Masukkan deskripsi"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="stacked">Tenggat (format: YYYY-MM-DD)</ion-label>
+    <ion-input [(ngModel)]="tenggat" placeholder="Masukkan tenggat"></ion-input>
+  </ion-item>  
+
+  <!-- Tombol Tambah Tugas -->
+  <ion-button expand="full" color="secondary" (click)="addTugas()">Tambah Tugas</ion-button>
+
+  <!-- List Tugas -->
+  <ion-list *ngIf="tugas.length > 0">
+    <ion-item *ngFor="let tugasItem of tugas" lines="full">
+      <ion-label class="ion-text-wrap">
+        <h2>{{ tugasItem.matkul }}</h2>
+        <p>{{ tugasItem.deskripsi }}</p>
+        <p class="ion-text-end ion-padding-top">{{ tugasItem.tenggat }}</p>
+      </ion-label>
+      <ion-checkbox [(ngModel)]="tugasItem.completed" (ionChange)="updateTugasStatus(tugasItem.id, tugasItem.completed ? 1 : 0)"></ion-checkbox>
+      <ion-buttons slot="end">
+        <ion-button fill="outline" color="warning" (click)="editTugas(tugasItem.id)">
+          <ion-icon name="create"></ion-icon>
+          Edit
+        </ion-button>
+        <ion-button fill="outline" color="danger" (click)="deleteTugas(tugasItem.id)">
+          <ion-icon name="trash"></ion-icon>
+          Hapus
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+  <!-- Pesan Tidak Ada Tugas -->
+  <div *ngIf="tugas.length === 0" class="ion-text-center ion-padding">
+    <p>Tidak Ada Tugas</p>
+  </div>
+
+  <!-- Tombol Hapus Semua Tugas -->
+  <ion-button expand="full" color="danger" (click)="clearTugas()">
+    <ion-icon name="trash"></ion-icon>
+    Hapus Semua Tugas
+  </ion-button>
+</ion-content>
